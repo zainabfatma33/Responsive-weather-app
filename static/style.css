@@ -1,0 +1,99 @@
+:root{
+  --bg:#f3f6ff;
+  --card:#fff;
+  --accent:#0077b6;
+  --muted:#555;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, var(--bg) 0%, #ffffff 100%);
+  color:#0b2545;
+  display:flex;
+  min-height:100vh;
+  align-items:center;
+  justify-content:center;
+  padding:2rem;
+}
+
+.container{
+  width:100%;
+  max-width:720px;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:1rem;
+}
+
+.search{
+  display:flex;
+  gap:0.5rem;
+  margin-bottom:1rem;
+}
+.search input{
+  flex:1;
+  padding:0.8rem 1rem;
+  border-radius:8px;
+  border:1px solid #e0e6f0;
+  font-size:1rem;
+}
+.search button{
+  padding:0.8rem 1rem;
+  border-radius:8px;
+  border:none;
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+.card{
+  background:var(--card);
+  padding:1rem;
+  border-radius:12px;
+  box-shadow: 0 6px 18px rgba(11,37,69,0.08);
+}
+
+.hidden{display:none}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.top-row h2{margin:0}
+.top-row p{margin:0;color:var(--muted)}
+
+.temp{
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+}
+.temp img{width:64px;height:64px}
+.temp #temp{
+  font-size:1.8rem;
+  font-weight:700;
+}
+
+.details{
+  display:flex;
+  gap:1.2rem;
+  margin-top:1rem;
+  color:var(--muted);
+  font-size:0.95rem;
+}
+
+.error{
+  color:#b00020;
+  text-align:center;
+  margin-top:0.8rem;
+}
+
+/* Responsive tweaks */
+@media (max-width:520px){
+  .top-row{flex-direction:column;align-items:flex-start;gap:0.8rem}
+  .temp img{width:56px;height:56px}
+}

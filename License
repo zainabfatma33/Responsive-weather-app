@@ -1,0 +1,53 @@
+---
+
+# app.py
+```python
+import os
+from flask import Flask, render_template, request, jsonify
+import requests
+from dotenv import load_dotenv
+
+load_dotenv()  # optional, reads .env
+
+app = Flask(__name__, static_folder='static', template_folder='templates')
+
+API_KEY = os.getenv('OPENWEATHER_API_KEY')
+if not API_KEY:
+    raise RuntimeError("Please set the OPENWEATHER_API_KEY environment variable (or use a .env file).")
+
+OWM_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/weather')
+def weather():
+    city = request.args.get('city', '')
+    if not city:
+        return jsonify({'error': 'City parameter is required.'}), 400
+
+    params = {
+        'q': city,
+        'appid': API_KEY,
+        'units': 'metric'  # use 'imperial' for Fahrenheit
+    }
+
+    resp = requests.get(OWM_URL, params=params)
+    if resp.status_code != 200:
+        return jsonify({'error': 'City not found or API error.'}), 404
+
+    data = resp.json()
+    result = {
+        'city': data.get('name'),
+        'country': data.get('sys', {}).get('country'),
+        'temp': data.get('main', {}).get('temp'),
+        'description': data.get('weather')[0].get('description') if data.get('weather') else '',
+        'icon': data.get('weather')[0].get('icon') if data.get('weather') else '',
+        'humidity': data.get('main', {}).get('humidity'),
+        'wind_speed': data.get('wind', {}).get('speed')
+    }
+    return jsonify(result)
+
+if __name__ == '__main__':
+    app.run(debug=True)
